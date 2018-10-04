@@ -12,7 +12,7 @@ public class CallHierachyVisitor extends CallHierachyVisitorAdapter
   @Override
   public Void visit(MethodCallExpr n, CallHierachyResult arg)
   {
-    final CallHierachyResult childScope = new CallHierachyResult();
+    var childScope = new CallHierachyResult();
     arg.addLeaf(childScope);
     childScope.setScopeName(n.getNameAsString());
     childScope.setNode(n);
