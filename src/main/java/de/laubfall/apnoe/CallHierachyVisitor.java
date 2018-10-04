@@ -1,6 +1,5 @@
 package de.laubfall.apnoe;
 
-import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.expr.MethodCallExpr;
 import com.github.javaparser.resolution.declarations.ResolvedMethodDeclaration;
 import com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFacade;
@@ -9,17 +8,6 @@ import com.github.javaparser.symbolsolver.model.resolution.SymbolReference;
 
 public class CallHierachyVisitor extends CallHierachyVisitorAdapter
 {
-
-  @Override
-  public Void visit(MethodDeclaration n, CallHierachyResult arg)
-  {
-//    final CallHierachyResult childScope = new CallHierachyResult();
-//    arg.addLeaf(childScope);
-//    childScope.setScopeName(n.getNameAsString());
-//    childScope.setNode(n);
-    n.getChildNodes().forEach(cn -> cn.accept(this, arg));
-    return null;
-  }
 
   @Override
   public Void visit(MethodCallExpr n, CallHierachyResult arg)

@@ -14,6 +14,7 @@ import com.github.javaparser.ast.body.EnumConstantDeclaration;
 import com.github.javaparser.ast.body.EnumDeclaration;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.InitializerDeclaration;
+import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.body.ReceiverParameter;
 import com.github.javaparser.ast.body.VariableDeclarator;
@@ -96,6 +97,17 @@ import com.github.javaparser.ast.visitor.GenericVisitor;
 public abstract class CallHierachyVisitorAdapter implements GenericVisitor<Void, CallHierachyResult>
 {
 
+  private void goDeeper(Node n, CallHierachyResult arg) {
+    n.getChildNodes().forEach(cn -> cn.accept(this, arg));
+  }
+
+  @Override
+  public Void visit(MethodDeclaration n, CallHierachyResult arg)
+  {
+    goDeeper(n, arg);
+    return null;
+  }
+
   @Override
   public Void visit(EnclosedExpr n, CallHierachyResult arg)
   {
@@ -110,10 +122,6 @@ public abstract class CallHierachyVisitorAdapter implements GenericVisitor<Void,
     return null;
   }
 
-  private void goDeeper(Node n, CallHierachyResult arg) {
-    n.getChildNodes().forEach(cn -> cn.accept(this, arg));
-  }
-  
   @Override
   public Void visit(CompilationUnit n, CallHierachyResult arg)
   {
