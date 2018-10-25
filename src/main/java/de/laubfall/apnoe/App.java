@@ -41,6 +41,8 @@ public class App
    */
   private static final String ARG_ENTRY_POINT_SRC = "-DentryPointSrc=";
 
+  private static final String ARG_ENTRY_POINT_METHOD_NAME = "-DentryPointMethod=";
+  
   public static void main(String[] args) throws IOException
   {
     TYPE_SOLVER = TypeSolverFactory.get()
@@ -50,7 +52,7 @@ public class App
         .build();
 
     App a = new App();
-    a.start(argEntryPointSrc(args));
+    a.start(argEntryPointSrc(args), argEntryPointMethodName(args));
   }
 
   private static String argEntryPointSrc(String[] args)
@@ -58,6 +60,13 @@ public class App
     return Arrays.stream(args).filter(arg -> arg.startsWith(ARG_ENTRY_POINT_SRC)).findFirst()
         .orElseThrow(() -> new RuntimeException("Does not found entry point arg"))
         .substring(ARG_ENTRY_POINT_SRC.length());
+  }
+  
+  private static String argEntryPointMethodName(String[] args)
+  {
+    return Arrays.stream(args).filter(arg -> arg.startsWith(ARG_ENTRY_POINT_METHOD_NAME)).findFirst()
+        .orElseThrow(() -> new RuntimeException("Does not found entry point method name arg"))
+        .substring(ARG_ENTRY_POINT_METHOD_NAME.length());
   }
 
   private static String[] argJavaSourceDeps(String[] args)
@@ -82,16 +91,16 @@ public class App
     return new String[] {};
   }
 
-  private void start(String pathToEntryPointSourceFile) throws FileNotFoundException
+  private void start(String pathToEntryPointSourceFile, String entryPointMethodName) throws FileNotFoundException
   {
-
+    // The starting point from where we start to find all the different call hierarchies.
     Optional<ClassOrInterfaceDeclaration> node = JavaParser
         .parse(new File(pathToEntryPointSourceFile))
         .findFirst(ClassOrInterfaceDeclaration.class);
 
     // looking for the entry point
     Optional<MethodDeclaration> entryPoint = node.get().findFirst(MethodDeclaration.class)
-        .filter(md -> md.getNameAsString().equals("executeRequest"));
+        .filter(md -> md.getNameAsString().equals(entryPointMethodName));
 
     CallHierachyResult result = new CallHierachyResult();
     entryPoint.get().accept(new CallHierachyVisitor(), result);

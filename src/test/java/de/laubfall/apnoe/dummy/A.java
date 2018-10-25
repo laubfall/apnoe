@@ -16,6 +16,8 @@ public class A
       a.doSomethingMore("else");
     }
     
+//    new Blub().test2();
+    
     A.doSomethingInStaticContext();
   }
 
