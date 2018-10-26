@@ -5,6 +5,13 @@ import java.util.List;
 
 import com.github.javaparser.ast.Node;
 
+/**
+ * Represents an element inside one call hierarchy. Most typically a method call or a flow statement like if, switch or
+ * similar.
+ * 
+ * @author Daniel
+ *
+ */
 public class CallHierachyResult
 {
   private String scopeName;
@@ -28,17 +35,17 @@ public class CallHierachyResult
 
   public CallHierachyResult findCallHierachyByNode(Node node)
   {
-    if(this.node.equals(node)) {
+    if (this.node.equals(node)) {
       return this;
     }
-    
-    for(CallHierachyResult leaf : leafs) {
+
+    for (CallHierachyResult leaf : leafs) {
       CallHierachyResult result = leaf.findCallHierachyByNode(node);
-      if(result != null) {
+      if (result != null) {
         return result;
       }
     }
-    
+
     return null;
   }
 

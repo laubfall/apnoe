@@ -15,9 +15,7 @@ public class A
     } else {
       a.doSomethingMore("else");
     }
-    
-//    new Blub().test2();
-    
+
     A.doSomethingInStaticContext();
   }
 

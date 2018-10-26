@@ -8,15 +8,23 @@ import org.apache.logging.log4j.Logger;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.MethodCallExpr;
 import com.github.javaparser.ast.stmt.IfStmt;
+import com.github.javaparser.ast.stmt.Statement;
 import com.github.javaparser.resolution.declarations.ResolvedMethodDeclaration;
 import com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFacade;
 import com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserMethodDeclaration;
 import com.github.javaparser.symbolsolver.model.resolution.SymbolReference;
 
+/**
+ * This visitor is specialized for analyzing the call hierarchy of methods. Method calls and statements that modifies
+ * call hierarchy (like if-Statement) are logged inside the {@link CallHierachyResult}.
+ * 
+ * @author Daniel
+ *
+ */
 public class CallHierachyVisitor extends CallHierachyVisitorAdapter
 {
   private static final Logger LOG = LogManager.getLogger();
-  
+
   @Override
   public Void visit(MethodCallExpr n, CallHierachyResult arg)
   {
@@ -47,8 +55,22 @@ public class CallHierachyVisitor extends CallHierachyVisitorAdapter
   @Override
   public Void visit(IfStmt n, CallHierachyResult arg)
   {
-    // TODO Auto-generated method stub
-    return super.visit(n, arg);
+    CallHierachyResult childScope = new CallHierachyResult();
+    childScope.setNode(n);
+    childScope.setScopeName("if");
+    arg.addLeaf(childScope);
+    n.getThenStmt().accept(this, childScope);
+    
+    final Optional<Statement> elseStmt = n.getElseStmt();
+    if(elseStmt.isPresent()) {
+      CallHierachyResult elseChildScope = new CallHierachyResult();
+      elseChildScope.setNode(elseStmt.get());
+      elseChildScope.setScopeName("else");
+      arg.addLeaf(elseChildScope);
+      elseStmt.get().getChildNodes().forEach(cn -> cn.accept(this, elseChildScope));
+    }
+    
+    return null;
   }
 
   private CallHierachyResult methodCallExpressionScope(MethodCallExpr methCallExpr)

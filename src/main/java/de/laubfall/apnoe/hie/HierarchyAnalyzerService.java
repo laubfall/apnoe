@@ -11,6 +11,12 @@ import com.github.javaparser.JavaParser;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 
+/**
+ * Service that provides functionality for analyzing the hierarchy of method calls.
+ * 
+ * @author Daniel
+ *
+ */
 public class HierarchyAnalyzerService
 {
   private static final Logger LOG = LogManager.getLogger(HierarchyAnalyzerService.class);
@@ -32,7 +38,14 @@ public class HierarchyAnalyzerService
     Optional<MethodDeclaration> entryPoint = node.get().findFirst(MethodDeclaration.class)
         .filter(md -> md.getNameAsString().equals(entryPointMethodName));
 
-    CallHierachyResult result = new CallHierachyResult();
+    if(entryPoint.isPresent() == false) {
+      LOG.warn("Entry point not found. Looked for entry point: " + entryPointMethodName);
+      throw new HierarchyException("Did not found given entry point");
+    }
+    
+    final CallHierachyResult result = new CallHierachyResult();
+    result.setNode(node.get());
+    result.setScopeName(entryPointMethodName);
     entryPoint.get().accept(new CallHierachyVisitor(), result);
     return result;
   }
