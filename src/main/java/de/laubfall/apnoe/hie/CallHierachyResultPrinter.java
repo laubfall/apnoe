@@ -1,4 +1,4 @@
-package de.laubfall.apnoe;
+package de.laubfall.apnoe.hie;
 
 import java.util.List;
 

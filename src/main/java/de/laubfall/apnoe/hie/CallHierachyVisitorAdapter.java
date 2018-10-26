@@ -1,4 +1,4 @@
-package de.laubfall.apnoe;
+package de.laubfall.apnoe.hie;
 
 import com.github.javaparser.ast.ArrayCreationLevel;
 import com.github.javaparser.ast.CompilationUnit;

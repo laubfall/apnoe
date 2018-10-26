@@ -20,6 +20,12 @@ import com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParse
 import com.github.javaparser.symbolsolver.model.resolution.SymbolReference;
 import com.github.javaparser.symbolsolver.resolution.typesolvers.CombinedTypeSolver;
 
+import de.laubfall.apnoe.hie.CallHierachyResult;
+import de.laubfall.apnoe.hie.CallHierachyResultPrinter;
+import de.laubfall.apnoe.hie.CallHierachyVisitor;
+import de.laubfall.apnoe.hie.HierarchyAnalyzerService;
+import de.laubfall.apnoe.hie.TypeSolverFactory;
+
 public class App
 {
   private static CombinedTypeSolver TYPE_SOLVER;
@@ -49,7 +55,7 @@ public class App
         .create()
         .addJavaSourceSolver(argJavaSourceDeps(args))
         .addJarSolver(argJarDeps(args))
-        .build();
+        .typeSolver();
 
     App a = new App();
     a.start(argEntryPointSrc(args), argEntryPointMethodName(args));
@@ -93,23 +99,12 @@ public class App
 
   private void start(String pathToEntryPointSourceFile, String entryPointMethodName) throws FileNotFoundException
   {
-    // The starting point from where we start to find all the different call hierarchies.
-    Optional<ClassOrInterfaceDeclaration> node = JavaParser
-        .parse(new File(pathToEntryPointSourceFile))
-        .findFirst(ClassOrInterfaceDeclaration.class);
-
-    // looking for the entry point
-    Optional<MethodDeclaration> entryPoint = node.get().findFirst(MethodDeclaration.class)
-        .filter(md -> md.getNameAsString().equals(entryPointMethodName));
-
-    CallHierachyResult result = new CallHierachyResult();
-    entryPoint.get().accept(new CallHierachyVisitor(), result);
-
-    new CallHierachyResultPrinter().printToSyso(result);
+    final HierarchyAnalyzerService has = new HierarchyAnalyzerService();
+    new CallHierachyResultPrinter().printToSyso(has.analyze(pathToEntryPointSourceFile, entryPointMethodName));
     
-    StringBuilder callBuilder = new StringBuilder();
-    recMethodCalls(entryPoint.get(), callBuilder);
-    System.out.println(callBuilder.toString());
+//    StringBuilder callBuilder = new StringBuilder();
+//    recMethodCalls(entryPoint.get(), callBuilder);
+//    System.out.println(callBuilder.toString());
   }
 
   private void recMethodCalls(final MethodDeclaration methDec, StringBuilder callBuilder)

@@ -1,4 +1,4 @@
-package de.laubfall.apnoe;
+package de.laubfall.apnoe.hie;
 
 import java.io.IOException;
 
@@ -7,6 +7,12 @@ import com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver;
 import com.github.javaparser.symbolsolver.resolution.typesolvers.JavaParserTypeSolver;
 import com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver;
 
+/**
+ * Factory with some helper methods for creating all required type solvers.
+ * 
+ * @author Daniel
+ *
+ */
 public class TypeSolverFactory
 {
   private static TypeSolverFactory instance;
@@ -44,7 +50,7 @@ public class TypeSolverFactory
 
   public TypeSolverFactory addJavaSourceSolver(String... pathToJavaSource)
   {
-    for(String path : pathToJavaSource) {
+    for (String path : pathToJavaSource) {
       addJavaSourceSolver(path);
     }
     return this;
@@ -63,8 +69,12 @@ public class TypeSolverFactory
     return this;
   }
 
-  public CombinedTypeSolver build()
+  public CombinedTypeSolver typeSolver()
   {
+    if(typeSolver == null) {
+      throw new RuntimeException("TypeSolver not yet initialized, call create() before this method");
+    }
+    
     return typeSolver;
   }
 
