@@ -60,16 +60,39 @@ public class CallHierachyVisitor extends CallHierachyVisitorAdapter
     childScope.setScopeName("if");
     arg.addLeaf(childScope);
     n.getThenStmt().accept(this, childScope);
-    
-    final Optional<Statement> elseStmt = n.getElseStmt();
-    if(elseStmt.isPresent()) {
-      CallHierachyResult elseChildScope = new CallHierachyResult();
-      elseChildScope.setNode(elseStmt.get());
-      elseChildScope.setScopeName("else");
-      arg.addLeaf(elseChildScope);
-      elseStmt.get().getChildNodes().forEach(cn -> cn.accept(this, elseChildScope));
+
+    final Optional<Statement> elseStmtOpt = n.getElseStmt();
+    if (elseStmtOpt.isPresent()) {
+      ifElseIfScope(n, arg);
+
+      final Statement elseStmt = elseStmtOpt.get();
+      if (elseStmt instanceof IfStmt == false) {
+        CallHierachyResult elseChildScope = new CallHierachyResult();
+        elseChildScope.setNode(elseStmtOpt.get());
+        elseChildScope.setScopeName("else");
+        arg.addLeaf(elseChildScope);
+        elseStmt.accept(this, elseChildScope);
+      }
     }
-    
+
+    return null;
+  }
+
+  private CallHierachyResult ifElseIfScope(IfStmt ifStatement, CallHierachyResult parent)
+  {
+    ifStatement.getElseStmt().ifPresent(elseStmt -> {
+      if(elseStmt instanceof IfStmt) {
+        final CallHierachyResult chr = new CallHierachyResult();
+        chr.setScopeName("else if");
+        chr.setNode(elseStmt);
+        parent.addLeaf(chr);
+        
+        final IfStmt thenBlockOfElse = (IfStmt) elseStmt;
+        ifElseIfScope(thenBlockOfElse, parent);
+        
+        thenBlockOfElse.getThenStmt().accept(this, chr);
+      }
+    });
     return null;
   }
 

@@ -18,7 +18,7 @@ public class CallHierachyResultPrinter
       System.out.println("");
       for(int i = 0; i < depth; i++)
         System.out.print("\t");
-      System.out.print(c.getScopeName());
+      System.out.print(c.getNode().getBegin().get() +" "+c.getScopeName());
 
       printToSyso(c.getLeafs(), depth+1);
     }
