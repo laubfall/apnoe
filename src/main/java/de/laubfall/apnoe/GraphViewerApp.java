@@ -9,28 +9,28 @@ import org.graphstream.graph.implementations.SingleGraph;
 import de.laubfall.apnoe.hie.CallHierarchyNode;
 import de.laubfall.apnoe.hie.HierarchyAnalyzerService;
 import de.laubfall.apnoe.hie.IfElseNode;
-import de.laubfall.apnoe.hie.TypeSolverFactory;
 
-public class GraphViewerApp
+public class GraphViewerApp extends AbstractApnoeApp
 {
 
   public static void main(String[] args)
   {
-    TypeSolverFactory.get().create();
+    initTypeSolver(args);
 
     final GraphViewerApp gva = new GraphViewerApp();
-    gva.createGraphAndShowIt();
+    gva.start(argEntryPointSrc(args), argEntryPointMethodName(args));
   }
 
-  public final void createGraphAndShowIt()
+  @Override
+  void start(String pathToEntryPointSourceFile, String entryPointMethodName)
   {
     final HierarchyAnalyzerService has = new HierarchyAnalyzerService();
-    final CallHierarchyNode result = has.analyze("src/test/java/de/laubfall/apnoe/dummy/IfElseSample.java", "main");
-
-    Graph graph = new SingleGraph("A.java");
-    graph.addNode(result.getUid());
+    final CallHierarchyNode result = has.analyze(pathToEntryPointSourceFile, entryPointMethodName);
+    
+    Graph graph = new SingleGraph("GraphViewerApp");
+    graph.addNode(result.getUid()).addAttribute("ui.label", result.getScopeName());
     addLeafNodes(result.getUid(), result.getLeafs(), graph);
-
+    
     graph.display();
   }
 
@@ -44,15 +44,14 @@ public class GraphViewerApp
 
       final Node leafNode = graph.addNode(l.getUid());
       leafNode.addAttribute("ui.label", l.getScopeName());
-      graph.addEdge(parentUid + "_" + l.getUid(), parentUid, l.getUid());
+      graph.addEdge(parentUid + "_" + l.getUid(), parentUid, l.getUid()).addAttribute("ui.label", provideEdgeLabel(l));
 
       addLeafNodes(l.getUid(), l.getLeafs(), graph);
     }
 
     // now take care of the if-Statements. These were not handled before.
     leafs.stream().filter(chr -> chr.getScopeName().equals("if")).forEach(ifElseNode -> {
-      final Node leafNode = graph.addNode(ifElseNode.getUid());
-      leafNode.addAttribute("ui.label", "if-else-ding");
+      graph.addNode(ifElseNode.getUid());
       graph.addEdge(parentUid + "_" + ifElseNode.getUid(), parentUid, ifElseNode.getUid());
 
       addLeafNodes(ifElseNode.getUid(), ifElseNode.getLeafs(), graph);
@@ -60,5 +59,17 @@ public class GraphViewerApp
       final IfElseNode ien = (IfElseNode) ifElseNode;
       ien.getSuccessors().forEach(successors -> addLeafNodes(ifElseNode.getUid(), successors.getLeafs(), graph));
     });
+  }
+  
+  private String provideEdgeLabel(CallHierarchyNode node) {
+    if(node.getParent() == null) {
+      return "";
+    }
+    
+    if(node.getParent() instanceof IfElseNode) {
+      return ((IfElseNode)node.getParent()).getScopeName();
+    }
+    
+    return "";
   }
 }

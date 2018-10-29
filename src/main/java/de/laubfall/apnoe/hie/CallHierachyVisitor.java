@@ -31,6 +31,7 @@ public class CallHierachyVisitor extends CallHierachyVisitorAdapter
   {
 
     var childScope = methodCallExpressionScope(n);
+    childScope.setParent(arg);
     arg.addLeaf(childScope);
 
     n.getChildNodes().stream().filter(cn -> childScope.findCallHierachyByNode(cn) == null)
@@ -59,6 +60,7 @@ public class CallHierachyVisitor extends CallHierachyVisitorAdapter
     IfElseNode childScope = new IfElseNode();
     childScope.setNode(n);
     childScope.setScopeName("if");
+    childScope.setParent(arg);
     arg.addLeaf(childScope);
     n.getThenStmt().accept(this, childScope);
 
@@ -71,6 +73,7 @@ public class CallHierachyVisitor extends CallHierachyVisitorAdapter
         IfElseNode elseChildScope = new IfElseNode();
         elseChildScope.setNode(elseStmtOpt.get());
         elseChildScope.setScopeName("else");
+        elseChildScope.setParent(arg);
         arg.addLeaf(elseChildScope);
         childScope.addSuccessor(elseChildScope);
         elseStmt.accept(this, elseChildScope);
