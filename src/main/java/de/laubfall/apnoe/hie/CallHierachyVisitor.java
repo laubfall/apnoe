@@ -56,7 +56,7 @@ public class CallHierachyVisitor extends CallHierachyVisitorAdapter
   @Override
   public Void visit(IfStmt n, CallHierachyResult arg)
   {
-    CallHierachyResult childScope = new CallHierachyResult();
+    IfElseNode childScope = new IfElseNode();
     childScope.setNode(n);
     childScope.setScopeName("if");
     arg.addLeaf(childScope);
@@ -64,14 +64,15 @@ public class CallHierachyVisitor extends CallHierachyVisitorAdapter
 
     final Optional<Statement> elseStmtOpt = n.getElseStmt();
     if (elseStmtOpt.isPresent()) {
-      ifElseIfScope(n, arg);
+      ifElseIfScope(n, arg, childScope);
 
       final Statement elseStmt = elseStmtOpt.get();
       if (elseStmt instanceof IfStmt == false) {
-        CallHierachyResult elseChildScope = new CallHierachyResult();
+        IfElseNode elseChildScope = new IfElseNode();
         elseChildScope.setNode(elseStmtOpt.get());
         elseChildScope.setScopeName("else");
         arg.addLeaf(elseChildScope);
+        childScope.addSuccessor(elseChildScope);
         elseStmt.accept(this, elseChildScope);
       }
     }
@@ -86,17 +87,17 @@ public class CallHierachyVisitor extends CallHierachyVisitorAdapter
     return super.visit(n, arg);
   }
 
-  private CallHierachyResult ifElseIfScope(IfStmt ifStatement, CallHierachyResult parent)
+  private CallHierachyResult ifElseIfScope(IfStmt ifStatement, CallHierachyResult parent, IfElseNode rootNode)
   {
     ifStatement.getElseStmt().ifPresent(elseStmt -> {
       if(elseStmt instanceof IfStmt) {
-        final CallHierachyResult chr = new CallHierachyResult();
+        final IfElseNode chr = new IfElseNode();
         chr.setScopeName("else if");
         chr.setNode(elseStmt);
         parent.addLeaf(chr);
-        
+        rootNode.addSuccessor(chr);
         final IfStmt thenBlockOfElse = (IfStmt) elseStmt;
-        ifElseIfScope(thenBlockOfElse, parent);
+        ifElseIfScope(thenBlockOfElse, parent, rootNode);
         
         thenBlockOfElse.getThenStmt().accept(this, chr);
       }

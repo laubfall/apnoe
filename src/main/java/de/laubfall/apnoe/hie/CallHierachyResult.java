@@ -131,6 +131,12 @@ public class CallHierachyResult
     return result;
   }
 
+  public final boolean isExecutionControlStmt() {
+//    if()
+    
+    return false;
+  }
+  
   public void addLeaf(final CallHierachyResult leaf)
   {
     leafs.add(leaf);
