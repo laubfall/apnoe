@@ -6,7 +6,7 @@ import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.SingleGraph;
 
-import de.laubfall.apnoe.hie.CallHierachyResult;
+import de.laubfall.apnoe.hie.CallHierarchyNode;
 import de.laubfall.apnoe.hie.HierarchyAnalyzerService;
 import de.laubfall.apnoe.hie.IfElseNode;
 import de.laubfall.apnoe.hie.TypeSolverFactory;
@@ -25,7 +25,7 @@ public class GraphViewerApp
   public final void createGraphAndShowIt()
   {
     final HierarchyAnalyzerService has = new HierarchyAnalyzerService();
-    final CallHierachyResult result = has.analyze("src/test/java/de/laubfall/apnoe/dummy/IfElseSample.java", "main");
+    final CallHierarchyNode result = has.analyze("src/test/java/de/laubfall/apnoe/dummy/IfElseSample.java", "main");
 
     Graph graph = new SingleGraph("A.java");
     graph.addNode(result.getUid());
@@ -34,10 +34,10 @@ public class GraphViewerApp
     graph.display();
   }
 
-  private final void addLeafNodes(String parentUid, List<CallHierachyResult> leafs, final Graph graph)
+  private final void addLeafNodes(String parentUid, List<CallHierarchyNode> leafs, final Graph graph)
   {
 
-    for (CallHierachyResult l : leafs) {
+    for (CallHierarchyNode l : leafs) {
       if (l instanceof IfElseNode) {
         continue;
       }

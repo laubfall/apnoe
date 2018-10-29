@@ -21,7 +21,7 @@ public class HierarchyAnalyzerService
 {
   private static final Logger LOG = LogManager.getLogger(HierarchyAnalyzerService.class);
   
-  public CallHierachyResult analyze(String pathToEntryPointSourceFile, String entryPointMethodName)
+  public CallHierarchyNode analyze(String pathToEntryPointSourceFile, String entryPointMethodName)
   {
     // The starting point from where we start to find all the different call hierarchies.
     Optional<ClassOrInterfaceDeclaration> node;
@@ -43,7 +43,7 @@ public class HierarchyAnalyzerService
       throw new HierarchyException("Did not found given entry point");
     }
     
-    final CallHierachyResult result = new CallHierachyResult();
+    final CallHierarchyNode result = new CallHierarchyNode();
     result.setNode(node.get());
     result.setScopeName(entryPointMethodName);
     entryPoint.get().accept(new CallHierachyVisitor(), result);

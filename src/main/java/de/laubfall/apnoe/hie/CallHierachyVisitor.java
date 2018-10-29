@@ -17,7 +17,7 @@ import com.github.javaparser.symbolsolver.model.resolution.SymbolReference;
 
 /**
  * This visitor is specialized for analyzing the call hierarchy of methods. Method calls and statements that modifies
- * call hierarchy (like if-Statement) are logged inside the {@link CallHierachyResult}.
+ * call hierarchy (like if-Statement) are logged inside the {@link CallHierarchyNode}.
  * 
  * @author Daniel
  *
@@ -27,7 +27,7 @@ public class CallHierachyVisitor extends CallHierachyVisitorAdapter
   private static final Logger LOG = LogManager.getLogger();
 
   @Override
-  public Void visit(MethodCallExpr n, CallHierachyResult arg)
+  public Void visit(MethodCallExpr n, CallHierarchyNode arg)
   {
 
     var childScope = methodCallExpressionScope(n);
@@ -54,7 +54,7 @@ public class CallHierachyVisitor extends CallHierachyVisitorAdapter
   }
 
   @Override
-  public Void visit(IfStmt n, CallHierachyResult arg)
+  public Void visit(IfStmt n, CallHierarchyNode arg)
   {
     IfElseNode childScope = new IfElseNode();
     childScope.setNode(n);
@@ -81,13 +81,13 @@ public class CallHierachyVisitor extends CallHierachyVisitorAdapter
   }
 
   @Override
-  public Void visit(AssignExpr n, CallHierachyResult arg)
+  public Void visit(AssignExpr n, CallHierarchyNode arg)
   {
     // TODO maybe we have to create a hierarchyResult for that (e.g. an assignment inside an if-else-block
     return super.visit(n, arg);
   }
 
-  private CallHierachyResult ifElseIfScope(IfStmt ifStatement, CallHierachyResult parent, IfElseNode rootNode)
+  private CallHierarchyNode ifElseIfScope(IfStmt ifStatement, CallHierarchyNode parent, IfElseNode rootNode)
   {
     ifStatement.getElseStmt().ifPresent(elseStmt -> {
       if(elseStmt instanceof IfStmt) {
@@ -105,14 +105,14 @@ public class CallHierachyVisitor extends CallHierachyVisitorAdapter
     return null;
   }
 
-  private CallHierachyResult methodCallExpressionScope(MethodCallExpr methCallExpr)
+  private CallHierarchyNode methodCallExpressionScope(MethodCallExpr methCallExpr)
   {
     Expression scopeExpr = scopeExpression(methCallExpr);
-    CallHierachyResult res = new CallHierachyResult();
+    CallHierarchyNode res = new CallHierarchyNode();
     res.setNode(methCallExpr);
     res.setScopeName(methCallExpr.getNameAsString());
     while (scopeExpr != null && scopeExpr instanceof MethodCallExpr) {
-      final CallHierachyResult scope = new CallHierachyResult();
+      final CallHierarchyNode scope = new CallHierarchyNode();
       final MethodCallExpr methodCallInScope = (MethodCallExpr) scopeExpr;
       scope.setNode(methodCallInScope);
       scope.setScopeName(methodCallInScope.getNameAsString());

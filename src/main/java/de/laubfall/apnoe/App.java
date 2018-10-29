@@ -20,7 +20,7 @@ import com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParse
 import com.github.javaparser.symbolsolver.model.resolution.SymbolReference;
 import com.github.javaparser.symbolsolver.resolution.typesolvers.CombinedTypeSolver;
 
-import de.laubfall.apnoe.hie.CallHierachyResult;
+import de.laubfall.apnoe.hie.CallHierarchyNode;
 import de.laubfall.apnoe.hie.CallHierachyResultPrinter;
 import de.laubfall.apnoe.hie.CallHierachyVisitor;
 import de.laubfall.apnoe.hie.HierarchyAnalyzerService;

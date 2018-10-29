@@ -15,7 +15,7 @@ import com.github.javaparser.ast.stmt.IfStmt;
  * @author Daniel
  *
  */
-public class CallHierachyResult
+public class CallHierarchyNode
 {
   /**
    * Name of the statement that is represented by this instance (for example a method name).
@@ -25,12 +25,12 @@ public class CallHierachyResult
   /**
    * Actually not in use.
    */
-  private CallHierachyResult parent;
+  private CallHierarchyNode parent;
 
   /**
    * All the leafs (e.g. method calls of if-else-statements.
    */
-  private List<CallHierachyResult> leafs = new ArrayList<>();
+  private List<CallHierarchyNode> leafs = new ArrayList<>();
 
   /**
    * Node as found by the java parser. Hold to obtain additional information about the code artifact if necessary.
@@ -41,12 +41,12 @@ public class CallHierachyResult
   
   private static final Random random = new Random();
   
-  public CallHierachyResult()
+  public CallHierarchyNode()
   {
     this("");
   }
 
-  public CallHierachyResult(String scopeName)
+  public CallHierarchyNode(String scopeName)
   {
     super();
     this.scopeName = scopeName;
@@ -54,20 +54,20 @@ public class CallHierachyResult
   }
 
   /**
-   * Find a instance of {@link CallHierachyResult} for the given node (see parameter).
+   * Find a instance of {@link CallHierarchyNode} for the given node (see parameter).
    * 
-   * @param node if an instance of {@link CallHierachyResult} has the given node stored inside the corresponding field
+   * @param node if an instance of {@link CallHierarchyNode} has the given node stored inside the corresponding field
    *          the method will return this instance.
    * @return null if there was no matching instance (see parameter description).
    */
-  public final CallHierachyResult findCallHierachyByNode(Node node)
+  public final CallHierarchyNode findCallHierachyByNode(Node node)
   {
     if (this.node.equals(node)) {
       return this;
     }
 
-    for (CallHierachyResult leaf : leafs) {
-      CallHierachyResult result = leaf.findCallHierachyByNode(node);
+    for (CallHierarchyNode leaf : leafs) {
+      CallHierarchyNode result = leaf.findCallHierachyByNode(node);
       if (result != null) {
         return result;
       }
@@ -109,7 +109,7 @@ public class CallHierachyResult
    * Count all possible execution paths.
    * 
    * @param entryPoint true if you want to calculate possible execution paths starting from the node of this
-   *          {@link CallHierachyResult} instance.
+   *          {@link CallHierarchyNode} instance.
    * @return see description.
    */
   public final int countExecutionPaths(boolean entryPoint)
@@ -137,7 +137,7 @@ public class CallHierachyResult
     return false;
   }
   
-  public void addLeaf(final CallHierachyResult leaf)
+  public void addLeaf(final CallHierarchyNode leaf)
   {
     leafs.add(leaf);
   }
@@ -152,7 +152,7 @@ public class CallHierachyResult
     this.scopeName = scopeName;
   }
 
-  public List<CallHierachyResult> getLeafs()
+  public List<CallHierarchyNode> getLeafs()
   {
     return leafs;
   }
@@ -167,12 +167,12 @@ public class CallHierachyResult
     this.node = node;
   }
 
-  public CallHierachyResult getParent()
+  public CallHierarchyNode getParent()
   {
     return parent;
   }
 
-  public void setParent(CallHierachyResult parent)
+  public void setParent(CallHierarchyNode parent)
   {
     this.parent = parent;
   }

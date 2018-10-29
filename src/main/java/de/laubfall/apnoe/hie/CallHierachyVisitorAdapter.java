@@ -94,645 +94,645 @@ import com.github.javaparser.ast.type.VoidType;
 import com.github.javaparser.ast.type.WildcardType;
 import com.github.javaparser.ast.visitor.GenericVisitor;
 
-public abstract class CallHierachyVisitorAdapter implements GenericVisitor<Void, CallHierachyResult>
+public abstract class CallHierachyVisitorAdapter implements GenericVisitor<Void, CallHierarchyNode>
 {
 
-  private void goDeeper(Node n, CallHierachyResult arg) {
+  private void goDeeper(Node n, CallHierarchyNode arg) {
     n.getChildNodes().forEach(cn -> cn.accept(this, arg));
   }
 
   @Override
-  public Void visit(MethodDeclaration n, CallHierachyResult arg)
+  public Void visit(MethodDeclaration n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(EnclosedExpr n, CallHierachyResult arg)
+  public Void visit(EnclosedExpr n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(BlockStmt n, CallHierachyResult arg)
+  public Void visit(BlockStmt n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(CompilationUnit n, CallHierachyResult arg)
+  public Void visit(CompilationUnit n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(PackageDeclaration n, CallHierachyResult arg)
+  public Void visit(PackageDeclaration n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(TypeParameter n, CallHierachyResult arg)
+  public Void visit(TypeParameter n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(LineComment n, CallHierachyResult arg)
+  public Void visit(LineComment n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(BlockComment n, CallHierachyResult arg)
+  public Void visit(BlockComment n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(ClassOrInterfaceDeclaration n, CallHierachyResult arg)
+  public Void visit(ClassOrInterfaceDeclaration n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(EnumDeclaration n, CallHierachyResult arg)
+  public Void visit(EnumDeclaration n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(EnumConstantDeclaration n, CallHierachyResult arg)
+  public Void visit(EnumConstantDeclaration n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(AnnotationDeclaration n, CallHierachyResult arg)
+  public Void visit(AnnotationDeclaration n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(AnnotationMemberDeclaration n, CallHierachyResult arg)
+  public Void visit(AnnotationMemberDeclaration n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(FieldDeclaration n, CallHierachyResult arg)
+  public Void visit(FieldDeclaration n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(VariableDeclarator n, CallHierachyResult arg)
+  public Void visit(VariableDeclarator n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(ConstructorDeclaration n, CallHierachyResult arg)
+  public Void visit(ConstructorDeclaration n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(Parameter n, CallHierachyResult arg)
+  public Void visit(Parameter n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(InitializerDeclaration n, CallHierachyResult arg)
+  public Void visit(InitializerDeclaration n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(JavadocComment n, CallHierachyResult arg)
+  public Void visit(JavadocComment n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(ClassOrInterfaceType n, CallHierachyResult arg)
+  public Void visit(ClassOrInterfaceType n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(PrimitiveType n, CallHierachyResult arg)
+  public Void visit(PrimitiveType n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(ArrayType n, CallHierachyResult arg)
+  public Void visit(ArrayType n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(ArrayCreationLevel n, CallHierachyResult arg)
+  public Void visit(ArrayCreationLevel n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(IntersectionType n, CallHierachyResult arg)
+  public Void visit(IntersectionType n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(UnionType n, CallHierachyResult arg)
+  public Void visit(UnionType n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(VoidType n, CallHierachyResult arg)
+  public Void visit(VoidType n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(WildcardType n, CallHierachyResult arg)
+  public Void visit(WildcardType n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(UnknownType n, CallHierachyResult arg)
+  public Void visit(UnknownType n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(ArrayAccessExpr n, CallHierachyResult arg)
+  public Void visit(ArrayAccessExpr n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(ArrayCreationExpr n, CallHierachyResult arg)
+  public Void visit(ArrayCreationExpr n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(ArrayInitializerExpr n, CallHierachyResult arg)
+  public Void visit(ArrayInitializerExpr n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(AssignExpr n, CallHierachyResult arg)
+  public Void visit(AssignExpr n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(BinaryExpr n, CallHierachyResult arg)
+  public Void visit(BinaryExpr n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(CastExpr n, CallHierachyResult arg)
+  public Void visit(CastExpr n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(ClassExpr n, CallHierachyResult arg)
+  public Void visit(ClassExpr n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(ConditionalExpr n, CallHierachyResult arg)
+  public Void visit(ConditionalExpr n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(FieldAccessExpr n, CallHierachyResult arg)
+  public Void visit(FieldAccessExpr n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(InstanceOfExpr n, CallHierachyResult arg)
+  public Void visit(InstanceOfExpr n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(StringLiteralExpr n, CallHierachyResult arg)
+  public Void visit(StringLiteralExpr n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(IntegerLiteralExpr n, CallHierachyResult arg)
+  public Void visit(IntegerLiteralExpr n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(LongLiteralExpr n, CallHierachyResult arg)
+  public Void visit(LongLiteralExpr n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(CharLiteralExpr n, CallHierachyResult arg)
+  public Void visit(CharLiteralExpr n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(DoubleLiteralExpr n, CallHierachyResult arg)
+  public Void visit(DoubleLiteralExpr n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(BooleanLiteralExpr n, CallHierachyResult arg)
+  public Void visit(BooleanLiteralExpr n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(NullLiteralExpr n, CallHierachyResult arg)
+  public Void visit(NullLiteralExpr n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(NameExpr n, CallHierachyResult arg)
+  public Void visit(NameExpr n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(ObjectCreationExpr n, CallHierachyResult arg)
+  public Void visit(ObjectCreationExpr n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(ThisExpr n, CallHierachyResult arg)
+  public Void visit(ThisExpr n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(SuperExpr n, CallHierachyResult arg)
+  public Void visit(SuperExpr n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(UnaryExpr n, CallHierachyResult arg)
+  public Void visit(UnaryExpr n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(VariableDeclarationExpr n, CallHierachyResult arg)
+  public Void visit(VariableDeclarationExpr n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(MarkerAnnotationExpr n, CallHierachyResult arg)
+  public Void visit(MarkerAnnotationExpr n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(SingleMemberAnnotationExpr n, CallHierachyResult arg)
+  public Void visit(SingleMemberAnnotationExpr n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(NormalAnnotationExpr n, CallHierachyResult arg)
+  public Void visit(NormalAnnotationExpr n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(MemberValuePair n, CallHierachyResult arg)
+  public Void visit(MemberValuePair n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(ExplicitConstructorInvocationStmt n, CallHierachyResult arg)
+  public Void visit(ExplicitConstructorInvocationStmt n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(LocalClassDeclarationStmt n, CallHierachyResult arg)
+  public Void visit(LocalClassDeclarationStmt n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(AssertStmt n, CallHierachyResult arg)
+  public Void visit(AssertStmt n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(LabeledStmt n, CallHierachyResult arg)
+  public Void visit(LabeledStmt n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(EmptyStmt n, CallHierachyResult arg)
+  public Void visit(EmptyStmt n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(ExpressionStmt n, CallHierachyResult arg)
+  public Void visit(ExpressionStmt n, CallHierarchyNode arg)
   {
     n.getChildNodes().forEach(cn -> cn.accept(this, arg));
     return null;
   }
 
   @Override
-  public Void visit(SwitchStmt n, CallHierachyResult arg)
+  public Void visit(SwitchStmt n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(SwitchEntryStmt n, CallHierachyResult arg)
+  public Void visit(SwitchEntryStmt n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(BreakStmt n, CallHierachyResult arg)
+  public Void visit(BreakStmt n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(ReturnStmt n, CallHierachyResult arg)
+  public Void visit(ReturnStmt n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(IfStmt n, CallHierachyResult arg)
+  public Void visit(IfStmt n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(WhileStmt n, CallHierachyResult arg)
+  public Void visit(WhileStmt n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(ContinueStmt n, CallHierachyResult arg)
+  public Void visit(ContinueStmt n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(DoStmt n, CallHierachyResult arg)
+  public Void visit(DoStmt n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(ForeachStmt n, CallHierachyResult arg)
+  public Void visit(ForeachStmt n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(ForStmt n, CallHierachyResult arg)
+  public Void visit(ForStmt n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(ThrowStmt n, CallHierachyResult arg)
+  public Void visit(ThrowStmt n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(SynchronizedStmt n, CallHierachyResult arg)
+  public Void visit(SynchronizedStmt n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(TryStmt n, CallHierachyResult arg)
+  public Void visit(TryStmt n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(CatchClause n, CallHierachyResult arg)
+  public Void visit(CatchClause n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(LambdaExpr n, CallHierachyResult arg)
+  public Void visit(LambdaExpr n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(MethodReferenceExpr n, CallHierachyResult arg)
+  public Void visit(MethodReferenceExpr n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(TypeExpr n, CallHierachyResult arg)
+  public Void visit(TypeExpr n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(NodeList n, CallHierachyResult arg)
+  public Void visit(NodeList n, CallHierarchyNode arg)
   {
 //    goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(Name n, CallHierachyResult arg)
+  public Void visit(Name n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(SimpleName n, CallHierachyResult arg)
+  public Void visit(SimpleName n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(ImportDeclaration n, CallHierachyResult arg)
+  public Void visit(ImportDeclaration n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(ModuleDeclaration n, CallHierachyResult arg)
+  public Void visit(ModuleDeclaration n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(ModuleRequiresStmt n, CallHierachyResult arg)
+  public Void visit(ModuleRequiresStmt n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(ModuleExportsStmt n, CallHierachyResult arg)
+  public Void visit(ModuleExportsStmt n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(ModuleProvidesStmt n, CallHierachyResult arg)
+  public Void visit(ModuleProvidesStmt n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(ModuleUsesStmt n, CallHierachyResult arg)
+  public Void visit(ModuleUsesStmt n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(ModuleOpensStmt n, CallHierachyResult arg)
+  public Void visit(ModuleOpensStmt n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(UnparsableStmt n, CallHierachyResult arg)
+  public Void visit(UnparsableStmt n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(ReceiverParameter n, CallHierachyResult arg)
+  public Void visit(ReceiverParameter n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;
   }
 
   @Override
-  public Void visit(VarType n, CallHierachyResult arg)
+  public Void visit(VarType n, CallHierarchyNode arg)
   {
     goDeeper(n, arg);
     return null;

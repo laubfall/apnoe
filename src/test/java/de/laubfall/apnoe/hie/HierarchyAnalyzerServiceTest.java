@@ -24,7 +24,7 @@ public class HierarchyAnalyzerServiceTest
   public void simpleHierarchyScan()
   {
     final HierarchyAnalyzerService has = new HierarchyAnalyzerService();
-    final CallHierachyResult result = has.analyze("src/test/java/de/laubfall/apnoe/dummy/A.java", "main");
+    final CallHierarchyNode result = has.analyze("src/test/java/de/laubfall/apnoe/dummy/A.java", "main");
 
     new CallHierachyResultPrinter().printToSyso(result);
 
@@ -40,7 +40,7 @@ public class HierarchyAnalyzerServiceTest
   public void ifElseScan()
   {
     final HierarchyAnalyzerService has = new HierarchyAnalyzerService();
-    final CallHierachyResult result = has.analyze("src/test/java/de/laubfall/apnoe/dummy/IfElseSample.java", "main");
+    final CallHierarchyNode result = has.analyze("src/test/java/de/laubfall/apnoe/dummy/IfElseSample.java", "main");
 
     new CallHierachyResultPrinter().printToSyso(result);
 
@@ -62,7 +62,7 @@ public class HierarchyAnalyzerServiceTest
   public void countBranches()
   {
     final HierarchyAnalyzerService has = new HierarchyAnalyzerService();
-    final CallHierachyResult result = has.analyze("src/test/java/de/laubfall/apnoe/dummy/CountBranchesSample.java", "main");
+    final CallHierarchyNode result = has.analyze("src/test/java/de/laubfall/apnoe/dummy/CountBranchesSample.java", "main");
     
     assertEquals(7, result.countBranches());
   }
