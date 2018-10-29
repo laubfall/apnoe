@@ -2,6 +2,7 @@ package de.laubfall.apnoe.hie;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 import com.github.javaparser.ast.Node;
@@ -36,6 +37,10 @@ public class CallHierachyResult
    */
   private Node node;
 
+  private String uid;
+  
+  private static final Random random = new Random();
+  
   public CallHierachyResult()
   {
     this("");
@@ -45,6 +50,7 @@ public class CallHierachyResult
   {
     super();
     this.scopeName = scopeName;
+    uid = String.valueOf(random.nextInt(99999));
   }
 
   /**
@@ -163,5 +169,15 @@ public class CallHierachyResult
   public void setParent(CallHierachyResult parent)
   {
     this.parent = parent;
+  }
+
+  public String getUid()
+  {
+    return uid;
+  }
+
+  public void setUid(String uid)
+  {
+    this.uid = uid;
   }
 }
