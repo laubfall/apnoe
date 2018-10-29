@@ -34,7 +34,6 @@ public class HierarchyAnalyzerServiceTest
     assertEquals(6, result.getLeafs().size());
 
     assertEquals(18, result.countLeafs());
-
   }
 
   @Test
@@ -55,6 +54,8 @@ public class HierarchyAnalyzerServiceTest
     assertEquals("else", result.getLeafs().get(4).getScopeName());
 
     assertEquals(12, result.countLeafs());
+    
+    assertEquals(8,  result.countExecutionPaths(true));
   }
 
   @Test

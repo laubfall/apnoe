@@ -2,6 +2,12 @@ package de.laubfall.apnoe.hie;
 
 import java.util.List;
 
+/**
+ * Super simple {@link CallHierachyResult} printer.
+ * 
+ * @author Daniel
+ *
+ */
 public class CallHierachyResultPrinter
 {
 
@@ -10,6 +16,7 @@ public class CallHierachyResultPrinter
     System.out.println("Call Hierachy:");
     System.out.println(result.getScopeName());
     printToSyso(result.getLeafs(), 1);
+    System.out.println(""); // print a new line so next calls to syso are not printed in the last line.
   }
 
   private final void printToSyso(final List<CallHierachyResult> childs, int depth)

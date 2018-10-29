@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.stmt.IfStmt;
 
 /**
  * Represents an element inside one call hierarchy. Most typically a method call or a flow statement like if, switch or
@@ -77,7 +78,7 @@ public class CallHierachyResult
   public final int countLeafs()
   {
     int result = leafs.size();
-    result += leafs.stream().map(chr -> chr.countLeafs()).collect(Collectors.summingInt(in -> in));    
+    result += leafs.stream().map(chr -> chr.countLeafs()).collect(Collectors.summingInt(in -> in));
     return result;
   }
 
@@ -89,12 +90,38 @@ public class CallHierachyResult
   public final int countBranches()
   {
     int result = 0;
-    if(leafs.isEmpty()) {
+    if (leafs.isEmpty()) {
       result += 1;
     } else {
       result += leafs.stream().map(chr -> chr.countBranches()).collect(Collectors.summingInt(in -> in));
     }
-    
+
+    return result;
+  }
+
+  /**
+   * Count all possible execution paths.
+   * 
+   * @param entryPoint true if you want to calculate possible execution paths starting from the node of this
+   *          {@link CallHierachyResult} instance.
+   * @return see description.
+   */
+  public final int countExecutionPaths(boolean entryPoint)
+  {
+    // -1 to show that we just started counting
+    int result = entryPoint ? 1 : 0;
+
+    if (node instanceof IfStmt) {
+      result += 1;
+
+      final IfStmt theIf = (IfStmt) node;
+      if (theIf.hasElseBranch() == false) {
+        result += 1;
+      }
+    } else {
+      result += leafs.stream().map(chr -> chr.countExecutionPaths(false)).collect(Collectors.summingInt(in -> in));
+    }
+
     return result;
   }
 
