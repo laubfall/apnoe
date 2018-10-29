@@ -18,6 +18,9 @@ public class IfElseSample
       System.out.println("d");
     } else {
       System.out.println("whatever");
+      if(b.equals("z")) {
+        System.out.println("theend");
+      }
     }
   }
 

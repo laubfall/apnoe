@@ -69,6 +69,11 @@ public class CallHierachyResult
     return null;
   }
 
+  /**
+   * Count all method calls and flow control statements.
+   * 
+   * @return the count as specified by the description.
+   */
   public final int countLeafs()
   {
     int result = leafs.size();
@@ -76,10 +81,21 @@ public class CallHierachyResult
     return result;
   }
 
+  /**
+   * Count all possible branches (execution paths).
+   * 
+   * @return the count as specified by the description.
+   */
   public final int countBranches()
   {
-
-    return 0;
+    int result = 0;
+    if(leafs.isEmpty()) {
+      result += 1;
+    } else {
+      result += leafs.stream().map(chr -> chr.countBranches()).collect(Collectors.summingInt(in -> in));
+    }
+    
+    return result;
   }
 
   public void addLeaf(final CallHierachyResult leaf)

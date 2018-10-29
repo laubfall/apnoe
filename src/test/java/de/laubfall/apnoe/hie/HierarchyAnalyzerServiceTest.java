@@ -32,8 +32,9 @@ public class HierarchyAnalyzerServiceTest
     assertNotNull(result.getNode());
     assertEquals("main", result.getScopeName());
     assertEquals(6, result.getLeafs().size());
-    
+
     assertEquals(18, result.countLeafs());
+
   }
 
   @Test
@@ -49,10 +50,19 @@ public class HierarchyAnalyzerServiceTest
     assertEquals("if", result.getLeafs().get(0).getScopeName());
     assertEquals("else if", result.getLeafs().get(1).getScopeName());
     assertEquals("else if", result.getLeafs().get(2).getScopeName());
-    
+
     assertEquals("if", result.getLeafs().get(3).getScopeName());
     assertEquals("else", result.getLeafs().get(4).getScopeName());
+
+    assertEquals(12, result.countLeafs());
+  }
+
+  @Test
+  public void countBranches()
+  {
+    final HierarchyAnalyzerService has = new HierarchyAnalyzerService();
+    final CallHierachyResult result = has.analyze("src/test/java/de/laubfall/apnoe/dummy/CountBranchesSample.java", "main");
     
-    assertEquals(10, result.countLeafs());
+    assertEquals(7, result.countBranches());
   }
 }

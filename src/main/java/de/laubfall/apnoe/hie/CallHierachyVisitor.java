@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.github.javaparser.ast.expr.AssignExpr;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.MethodCallExpr;
 import com.github.javaparser.ast.stmt.IfStmt;
@@ -76,6 +77,13 @@ public class CallHierachyVisitor extends CallHierachyVisitorAdapter
     }
 
     return null;
+  }
+
+  @Override
+  public Void visit(AssignExpr n, CallHierachyResult arg)
+  {
+    // TODO maybe we have to create a hierarchyResult for that (e.g. an assignment inside an if-else-block
+    return super.visit(n, arg);
   }
 
   private CallHierachyResult ifElseIfScope(IfStmt ifStatement, CallHierachyResult parent)
