@@ -93,7 +93,7 @@ public class GraphViewerApp extends AbstractApnoeApp
     public void render(Graphics2D graphics, GraphicGraph graph, double px2Gu, int widthPx, int heightPx, double minXGu,
         double minYGu, double maxXGu, double maxYGu)
     {
-      graphics.drawString("hello world", 30, 30);
+//      graphics.drawString("hello world", 30, 30);
       
     }
     
