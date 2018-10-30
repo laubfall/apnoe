@@ -1,15 +1,25 @@
 package de.laubfall.apnoe;
 
+import java.awt.Graphics2D;
 import java.util.List;
 
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.SingleGraph;
+import org.graphstream.ui.graphicGraph.GraphicGraph;
+import org.graphstream.ui.swingViewer.LayerRenderer;
+import org.graphstream.ui.swingViewer.Viewer;
 
 import de.laubfall.apnoe.hie.CallHierarchyNode;
 import de.laubfall.apnoe.hie.HierarchyAnalyzerService;
 import de.laubfall.apnoe.hie.IfElseNode;
 
+/**
+ * Sample app that demonstrate how the call hierarchy analyze result can be presented as a graph.
+ * 
+ * @author Daniel
+ *
+ */
 public class GraphViewerApp extends AbstractApnoeApp
 {
 
@@ -26,12 +36,15 @@ public class GraphViewerApp extends AbstractApnoeApp
   {
     final HierarchyAnalyzerService has = new HierarchyAnalyzerService();
     final CallHierarchyNode result = has.analyze(pathToEntryPointSourceFile, entryPointMethodName);
-    
-    Graph graph = new SingleGraph("GraphViewerApp");
+
+    final Graph graph = new SingleGraph("GraphViewerApp");
+    graph.addAttribute("ui.quality");
+    graph.addAttribute("ui.antialias");
     graph.addNode(result.getUid()).addAttribute("ui.label", result.getScopeName());
     addLeafNodes(result.getUid(), result.getLeafs(), graph);
-    
-    graph.display();
+
+    final Viewer viewer = graph.display();
+    viewer.getDefaultView().setForeLayoutRenderer(new AdditionalGraphInfoRenderer());
   }
 
   private final void addLeafNodes(String parentUid, List<CallHierarchyNode> leafs, final Graph graph)
@@ -60,16 +73,29 @@ public class GraphViewerApp extends AbstractApnoeApp
       ien.getSuccessors().forEach(successors -> addLeafNodes(ifElseNode.getUid(), successors.getLeafs(), graph));
     });
   }
-  
-  private String provideEdgeLabel(CallHierarchyNode node) {
-    if(node.getParent() == null) {
+
+  private String provideEdgeLabel(CallHierarchyNode node)
+  {
+    if (node.getParent() == null) {
       return "";
     }
-    
-    if(node.getParent() instanceof IfElseNode) {
-      return ((IfElseNode)node.getParent()).getScopeName();
+
+    if (node.getParent() instanceof IfElseNode) {
+      return ((IfElseNode) node.getParent()).getScopeName();
+    }
+
+    return "";
+  }
+  
+  class AdditionalGraphInfoRenderer implements LayerRenderer {
+
+    @Override
+    public void render(Graphics2D graphics, GraphicGraph graph, double px2Gu, int widthPx, int heightPx, double minXGu,
+        double minYGu, double maxXGu, double maxYGu)
+    {
+      graphics.drawString("hello world", 30, 30);
+      
     }
     
-    return "";
   }
 }

@@ -4,8 +4,16 @@ import java.util.Arrays;
 
 import com.github.javaparser.symbolsolver.resolution.typesolvers.CombinedTypeSolver;
 
+import de.laubfall.apnoe.hie.HierarchyAnalyzerService;
 import de.laubfall.apnoe.hie.TypeSolverFactory;
 
+/**
+ * Base class for apps that want to make use of the {@link HierarchyAnalyzerService}. It offers some convenient methods
+ * for handling cmd line parameters that are necessary for the analyzer and type solver.
+ * 
+ * @author Daniel
+ *
+ */
 public abstract class AbstractApnoeApp
 {
   protected static CombinedTypeSolver TYPE_SOLVER;
@@ -23,18 +31,30 @@ public abstract class AbstractApnoeApp
    * javaparser and analyzed for all call branches.
    */
   private static final String ARG_ENTRY_POINT_SRC = "-DentryPointSrc=";
+
+  /**
+   * Name of the method that acts as the entry point for the analyze.
+   */
   private static final String ARG_ENTRY_POINT_METHOD_NAME = "-DentryPointMethod=";
 
+  /**
+   * Typically this method is the place to start the analyze of the code. You can easily fetch the both parameters with
+   * the existing methods {@link #argEntryPointMethodName(String[])} and {@link #argEntryPointSrc(String[])}.
+   * 
+   * @param pathToEntryPointSourceFile Path to the source file that contains the entrypoint method.
+   * @param entryPointMethodName name of the entry point method.
+   */
   abstract void start(String pathToEntryPointSourceFile, String entryPointMethodName);
-  
-  protected static final void initTypeSolver(String[] args) {
+
+  protected static final void initTypeSolver(String[] args)
+  {
     TYPE_SOLVER = TypeSolverFactory.get()
         .create()
         .addJavaSourceSolver(argJavaSourceDeps(args))
         .addJarSolver(argJarDeps(args))
         .typeSolver();
   }
-  
+
   protected static String argEntryPointSrc(String[] args)
   {
     return Arrays.stream(args).filter(arg -> arg.startsWith(ARG_ENTRY_POINT_SRC)).findFirst()

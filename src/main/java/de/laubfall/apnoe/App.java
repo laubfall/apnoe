@@ -14,12 +14,18 @@ import com.github.javaparser.symbolsolver.model.resolution.SymbolReference;
 import de.laubfall.apnoe.hie.CallHierachyResultPrinter;
 import de.laubfall.apnoe.hie.HierarchyAnalyzerService;
 
+/**
+ * Sample class that demonstrate the function of the source analyzer service. The result is printed to the console.
+ * 
+ * @author Daniel
+ *
+ */
 public class App extends AbstractApnoeApp
 {
   public static void main(String[] args) throws IOException
   {
     initTypeSolver(args);
-    
+
     App a = new App();
     a.start(argEntryPointSrc(args), argEntryPointMethodName(args));
   }
@@ -28,10 +34,10 @@ public class App extends AbstractApnoeApp
   {
     final HierarchyAnalyzerService has = new HierarchyAnalyzerService();
     new CallHierachyResultPrinter().printToSyso(has.analyze(pathToEntryPointSourceFile, entryPointMethodName));
-    
-//    StringBuilder callBuilder = new StringBuilder();
-//    recMethodCalls(entryPoint.get(), callBuilder);
-//    System.out.println(callBuilder.toString());
+
+    //    StringBuilder callBuilder = new StringBuilder();
+    //    recMethodCalls(entryPoint.get(), callBuilder);
+    //    System.out.println(callBuilder.toString());
   }
 
   private void recMethodCalls(final MethodDeclaration methDec, StringBuilder callBuilder)
@@ -58,7 +64,7 @@ public class App extends AbstractApnoeApp
       if (typeDeclaration != null && typeDeclaration.isSolved()) {
         callBuilder.append(typeDeclaration.getCorrespondingDeclaration().declaringType().getName()).append(".");
       }
-      
+
       callBuilder.append(methodCallExpr.getNameAsString());
       callBuilder.append("(");
       if (methodCallExpr.getArguments().isNonEmpty()) {
