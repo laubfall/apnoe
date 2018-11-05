@@ -1,0 +1,14 @@
+package de.laubfall.apnoe.dummy;
+
+import de.laubfall.apnoe.ep.EntryPointScannerServiceTest;
+
+/**
+ * Introduced for test {@link EntryPointScannerServiceTest}.s
+ * 
+ * @author Daniel
+ *
+ */
+public class AScannerChildChild extends AScannerChild
+{
+
+}
