@@ -15,6 +15,11 @@ public class ChainedScanner extends AbstractScannerAdapter
     }
   }
 
+  public void addScanner(IScanner scanner)
+  {
+    this.chain.add(scanner);
+  }
+
   @Override
   public boolean match(InputStream artifact)
   {

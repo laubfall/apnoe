@@ -2,6 +2,10 @@ package de.laubfall.apnoe.ep;
 
 import java.io.InputStream;
 import java.util.List;
+import java.util.Optional;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.github.javaparser.JavaParser;
 import com.github.javaparser.ast.CompilationUnit;
@@ -13,7 +17,8 @@ import de.laubfall.apnoe.hie.TypeSolverFactory;
 
 public class ByExtendedTypeScanner extends ByTypeScanner
 {
-
+  private static final Logger LOG = LogManager.getFormatterLogger(ByExtendedTypeScanner.class);
+  
   public ByExtendedTypeScanner(String fqnTypeName)
   {
     super(fqnTypeName);
@@ -23,8 +28,12 @@ public class ByExtendedTypeScanner extends ByTypeScanner
   public boolean match(InputStream artifact)
   {
     final CompilationUnit parsedArtifact = JavaParser.parse(artifact);
-    
-    final TypeDeclaration<?> typeDeclaration = parsedArtifact.findFirst(TypeDeclaration.class).get();
+    Optional<TypeDeclaration> typeDecOpt = parsedArtifact.findFirst(TypeDeclaration.class);
+    if(typeDecOpt.isPresent() == false) {
+      LOG.debug("No type declaration found in artifact: " + parsedArtifact);
+      return false;
+    }
+    final TypeDeclaration<?> typeDeclaration = typeDecOpt.get();
     final JavaParserFacade javaParserFacade = JavaParserFacade.get(TypeSolverFactory.get().typeSolver());
     final List<ResolvedReferenceType> ancestors = javaParserFacade.getTypeDeclaration(typeDeclaration).getAllAncestors();
     for (ResolvedReferenceType rrt : ancestors) {

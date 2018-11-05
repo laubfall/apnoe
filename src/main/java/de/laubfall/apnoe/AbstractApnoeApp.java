@@ -1,6 +1,7 @@
 package de.laubfall.apnoe;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 import com.github.javaparser.symbolsolver.resolution.typesolvers.CombinedTypeSolver;
 
@@ -37,6 +38,8 @@ public abstract class AbstractApnoeApp
    */
   private static final String ARG_ENTRY_POINT_METHOD_NAME = "-DentryPointMethod=";
 
+  private static final String ARG_SCAN_DEFINITION = "-Dscanner=";
+
   /**
    * Typically this method is the place to start the analyze of the code. You can easily fetch the both parameters with
    * the existing methods {@link #argEntryPointMethodName(String[])} and {@link #argEntryPointSrc(String[])}.
@@ -53,6 +56,17 @@ public abstract class AbstractApnoeApp
         .addJavaSourceSolver(argJavaSourceDeps(args))
         .addJarSolver(argJarDeps(args))
         .typeSolver();
+  }
+
+  protected static String argScanner(String[] args, boolean silent)
+  {
+    Optional<String> findFirst = Arrays.stream(args).filter(arg -> arg.startsWith(ARG_SCAN_DEFINITION)).findFirst();
+    if (silent) {
+      return findFirst.orElse(null).substring(ARG_SCAN_DEFINITION.length());
+    } else {
+      return findFirst.orElseThrow(() -> new RuntimeException("Does not found scan definition arg"))
+          .substring(ARG_SCAN_DEFINITION.length());
+    }
   }
 
   protected static String argEntryPointSrc(String[] args)
