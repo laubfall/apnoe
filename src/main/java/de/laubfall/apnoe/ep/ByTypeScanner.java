@@ -11,7 +11,7 @@ import com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFacade;
 
 import de.laubfall.apnoe.hie.TypeSolverFactory;
 
-public class ByTypeScanner implements IScanner
+public class ByTypeScanner extends AbstractScannerAdapter
 {
   private final String fqnTypeName;
 

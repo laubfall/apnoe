@@ -2,7 +2,7 @@ package de.laubfall.apnoe.ep;
 
 import java.io.InputStream;
 
-public class AndCombinedScanner implements IScanner
+public class AndCombinedScanner extends AbstractScannerAdapter
 {
   private IScanner left;
   

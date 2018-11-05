@@ -4,7 +4,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChainedScanner implements IScanner
+public class ChainedScanner extends AbstractScannerAdapter
 {
   private List<IScanner> chain = new ArrayList<>();
 
