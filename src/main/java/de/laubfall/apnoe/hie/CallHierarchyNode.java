@@ -50,7 +50,7 @@ public class CallHierarchyNode
   {
     super();
     this.scopeName = scopeName;
-    uid = String.valueOf(random.nextInt(99999));
+    uid = String.valueOf(random.nextInt(999999999));
   }
 
   /**

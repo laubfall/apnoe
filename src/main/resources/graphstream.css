@@ -1,0 +1,17 @@
+graph {
+	fill-color: red;
+}
+
+node {
+	size: 6px;
+	text-size: 9px;
+}
+
+edge {
+	text-size: 8px;
+}
+
+node#app {
+	size: 14px;
+	fill-color:white;
+}

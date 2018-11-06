@@ -1,10 +1,18 @@
 package de.laubfall.apnoe;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
+import java.util.function.BiFunction;
 
 import com.github.javaparser.symbolsolver.resolution.typesolvers.CombinedTypeSolver;
 
+import de.laubfall.apnoe.ep.EntryPointScannerService;
+import de.laubfall.apnoe.ep.ScannerConfigurerService;
+import de.laubfall.apnoe.ep.ScannerDefinition;
+import de.laubfall.apnoe.hie.CallHierarchyNode;
 import de.laubfall.apnoe.hie.HierarchyAnalyzerService;
 import de.laubfall.apnoe.hie.TypeSolverFactory;
 
@@ -46,8 +54,32 @@ public abstract class AbstractApnoeApp
    * 
    * @param pathToEntryPointSourceFile Path to the source file that contains the entrypoint method.
    * @param entryPointMethodName name of the entry point method.
+   * @return found node for the give source file and entrypoint name (method name). Null if there is no entrypoint that
+   *         matches the criteria.
    */
-  abstract void start(String pathToEntryPointSourceFile, String entryPointMethodName);
+  abstract CallHierarchyNode start(String pathToEntryPointSourceFile, String entryPointMethodName);
+
+  protected final List<CallHierarchyNode> startScanner(String sourcePath, String scannerDefinition,
+      BiFunction<String, List<File>, List<CallHierarchyNode>> doScanWork)
+  {
+    final ScannerConfigurerService scs = new ScannerConfigurerService();
+    List<ScannerDefinition> scds = scs.createScannerDefinitions(scannerDefinition);
+    List<CallHierarchyNode> result = new ArrayList<>();
+    //    LOG.info("Created " + scds.size() + " scanner definitions");
+    for (ScannerDefinition sd : scds) {
+      final EntryPointScannerService scannerService = scs.createScannerService(sd, sourcePath);
+      final List<File> findEntryPoints = scannerService.findEntryPoints();
+      //      LOG.info("Found " + findEntryPoints.size() + " potential source files");
+      for (String entryPoint : sd.getEntryPoints()) {
+        final List<CallHierarchyNode> doneWork = doScanWork.apply(entryPoint, findEntryPoints);
+        if (doneWork != null) {
+          result.addAll(doneWork);
+        }
+      }
+    }
+
+    return result;
+  }
 
   protected static final void initTypeSolver(String[] args)
   {
@@ -62,7 +94,10 @@ public abstract class AbstractApnoeApp
   {
     Optional<String> findFirst = Arrays.stream(args).filter(arg -> arg.startsWith(ARG_SCAN_DEFINITION)).findFirst();
     if (silent) {
-      return findFirst.orElse(null).substring(ARG_SCAN_DEFINITION.length());
+      if(findFirst.isPresent() == false) {
+        return null;
+      }
+      return findFirst.get().substring(ARG_SCAN_DEFINITION.length());
     } else {
       return findFirst.orElseThrow(() -> new RuntimeException("Does not found scan definition arg"))
           .substring(ARG_SCAN_DEFINITION.length());

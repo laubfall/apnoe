@@ -37,6 +37,7 @@ public class EntryPointScannerService
     final List<File> result = new ArrayList<>();
     final File[] listFiles = root.listFiles();
     for (File f : listFiles) {
+      LOG.debug(f.getAbsolutePath());
       if (f.isFile() && f.getName().endsWith(".java")) {
         try (FileInputStream ois = FileUtils.openInputStream(f);) {
           final boolean match = scanner.match(ois);
