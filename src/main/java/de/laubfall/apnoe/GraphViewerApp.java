@@ -14,9 +14,11 @@ import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.MultiGraph;
 import org.graphstream.graph.implementations.SingleGraph;
+import org.graphstream.ui.geom.Point3;
 import org.graphstream.ui.graphicGraph.GraphicGraph;
 import org.graphstream.ui.swingViewer.LayerRenderer;
 import org.graphstream.ui.swingViewer.Viewer;
+import org.graphstream.ui.swingViewer.util.Camera;
 
 import de.laubfall.apnoe.hie.CallHierarchyNode;
 import de.laubfall.apnoe.hie.HierarchyAnalyzerService;
@@ -75,6 +77,7 @@ public class GraphViewerApp extends AbstractApnoeApp
     final Viewer viewer = graph.display();
 
     viewer.getDefaultView().addKeyListener(new ZoomAndPanKeyAdapter(viewer));
+    viewer.getDefaultView().setForeLayoutRenderer(new AdditionalGraphInfoRenderer(scanResult));
   }
 
   @Override
@@ -174,6 +177,12 @@ public class GraphViewerApp extends AbstractApnoeApp
       this.root = root;
     }
 
+    public AdditionalGraphInfoRenderer(List<CallHierarchyNode> scanResult)
+    {
+      root = new CallHierarchyNode();
+      scanResult.forEach(root::addLeaf);
+    }
+
     @Override
     public void render(Graphics2D graphics, GraphicGraph graph, double px2Gu, int widthPx, int heightPx, double minXGu,
         double minYGu, double maxXGu, double maxYGu)
@@ -191,10 +200,16 @@ public class GraphViewerApp extends AbstractApnoeApp
 
     private float currZoom = 1.0f;
 
+    private Point3 viewCenter;
+
+    private Camera camera;
+    
     public ZoomAndPanKeyAdapter(Viewer viewer)
     {
       super();
       this.viewer = viewer;
+      camera = viewer.getDefaultView().getCamera();
+      viewCenter = camera.getViewCenter();
     }
 
     @Override
@@ -202,12 +217,32 @@ public class GraphViewerApp extends AbstractApnoeApp
     {
       if (e.getKeyChar() == '-') {
         currZoom += 0.1;
-        viewer.getDefaultView().getCamera().setViewPercent(currZoom);
+        camera.setViewPercent(currZoom);
       }
 
       if (e.getKeyChar() == '+') {
         currZoom -= 0.1;
-        viewer.getDefaultView().getCamera().setViewPercent(currZoom);
+        camera.setViewPercent(currZoom);
+      }
+      
+      if(e.getKeyChar() == 'w') {
+        viewCenter.y += 0.1f;
+        camera.setViewCenter(viewCenter.x, viewCenter.y, viewCenter.z);
+      }
+      
+      if(e.getKeyChar() == 's') {
+        viewCenter.y -= 0.1f;
+        camera.setViewCenter(viewCenter.x, viewCenter.y, viewCenter.z);
+      }
+      
+      if(e.getKeyChar() == 'a') {
+        viewCenter.x -= 0.1f;
+        camera.setViewCenter(viewCenter.x, viewCenter.y, viewCenter.z);
+      }
+      
+      if(e.getKeyChar() == 'd') {
+        viewCenter.x += 0.1f;
+        camera.setViewCenter(viewCenter.x, viewCenter.y, viewCenter.z);
       }
     }
   }
