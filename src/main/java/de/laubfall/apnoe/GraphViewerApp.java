@@ -1,5 +1,6 @@
 package de.laubfall.apnoe;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -20,6 +21,8 @@ import org.graphstream.ui.swingViewer.LayerRenderer;
 import org.graphstream.ui.swingViewer.Viewer;
 import org.graphstream.ui.swingViewer.util.Camera;
 
+import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
+
 import de.laubfall.apnoe.hie.CallHierarchyNode;
 import de.laubfall.apnoe.hie.HierarchyAnalyzerService;
 import de.laubfall.apnoe.hie.IfElseNode;
@@ -37,7 +40,7 @@ public class GraphViewerApp extends AbstractApnoeApp
 
   public static void main(String[] args)
   {
-    LOG.warn("Starting graph viewer app");
+    LOG.info("Starting graph viewer app");
 
     initTypeSolver(args);
 
@@ -64,18 +67,20 @@ public class GraphViewerApp extends AbstractApnoeApp
     final Graph graph = new MultiGraph("GraphViewerApp");
     graph.addAttribute("ui.quality");
     graph.addAttribute("ui.antialias");
+    graph.addAttribute("ui.title", "apnoe");
     addStyleSheet(graph);
     // thats the root node (your application)
     graph.addNode("app");
 
     scanResult.forEach(scanNode -> {
-      graph.addNode(scanNode.getUid()).addAttribute("ui.label", scanNode.getScopeName());
+      ClassOrInterfaceDeclaration clNode = (ClassOrInterfaceDeclaration) scanNode.getNode();
+      graph.addNode(scanNode.getUid()).addAttribute("ui.label",
+          clNode.getNameAsString() + "." + scanNode.getScopeName());
       addLeafNodes(scanNode.getUid(), scanNode.getLeafs(), graph);
       graph.addEdge("app_edge_" + scanNode.getUid(), "app", scanNode.getUid());
     });
 
     final Viewer viewer = graph.display();
-
     viewer.getDefaultView().addKeyListener(new ZoomAndPanKeyAdapter(viewer));
     viewer.getDefaultView().setForeLayoutRenderer(new AdditionalGraphInfoRenderer(scanResult));
   }
@@ -187,6 +192,7 @@ public class GraphViewerApp extends AbstractApnoeApp
     public void render(Graphics2D graphics, GraphicGraph graph, double px2Gu, int widthPx, int heightPx, double minXGu,
         double minYGu, double maxXGu, double maxYGu)
     {
+      graphics.setColor(Color.BLACK);
       graphics.drawString("Leafs: " + root.countLeafs(), 30, 30);
       graphics.drawString("Branches: " + root.countBranches(), 30, 50);
       graphics.drawString("Execution Paths: " + root.countExecutionPaths(true), 30, 70);
@@ -196,18 +202,15 @@ public class GraphViewerApp extends AbstractApnoeApp
 
   class ZoomAndPanKeyAdapter extends KeyAdapter
   {
-    private Viewer viewer;
-
     private float currZoom = 1.0f;
 
     private Point3 viewCenter;
 
     private Camera camera;
-    
+
     public ZoomAndPanKeyAdapter(Viewer viewer)
     {
       super();
-      this.viewer = viewer;
       camera = viewer.getDefaultView().getCamera();
       viewCenter = camera.getViewCenter();
     }
@@ -224,23 +227,23 @@ public class GraphViewerApp extends AbstractApnoeApp
         currZoom -= 0.1;
         camera.setViewPercent(currZoom);
       }
-      
-      if(e.getKeyChar() == 'w') {
+
+      if (e.getKeyChar() == 'w') {
         viewCenter.y += 0.1f;
         camera.setViewCenter(viewCenter.x, viewCenter.y, viewCenter.z);
       }
-      
-      if(e.getKeyChar() == 's') {
+
+      if (e.getKeyChar() == 's') {
         viewCenter.y -= 0.1f;
         camera.setViewCenter(viewCenter.x, viewCenter.y, viewCenter.z);
       }
-      
-      if(e.getKeyChar() == 'a') {
+
+      if (e.getKeyChar() == 'a') {
         viewCenter.x -= 0.1f;
         camera.setViewCenter(viewCenter.x, viewCenter.y, viewCenter.z);
       }
-      
-      if(e.getKeyChar() == 'd') {
+
+      if (e.getKeyChar() == 'd') {
         viewCenter.x += 0.1f;
         camera.setViewCenter(viewCenter.x, viewCenter.y, viewCenter.z);
       }

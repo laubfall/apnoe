@@ -1,10 +1,11 @@
 graph {
-	fill-color: red;
+	fill-color: #fff6cc;
 }
 
 node {
 	size: 6px;
 	text-size: 11px;
+	text-background-mode: plain;
 }
 
 edge {
@@ -13,5 +14,5 @@ edge {
 
 node#app {
 	size: 14px;
-	fill-color:white;
+	fill-color:#ff2600;
 }
