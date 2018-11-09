@@ -21,16 +21,16 @@ import de.laubfall.apnoe.hie.HierarchyAnalyzerService;
  * @author Daniel
  *
  */
-public class App extends AbstractApnoeApp
+public class CallHierarchyToSysOutApp extends AbstractApnoeApp
 {
-  private static final Logger LOG = LogManager.getLogger(App.class);
+  private static final Logger LOG = LogManager.getLogger(CallHierarchyToSysOutApp.class);
 
   public static void main(String[] args) throws IOException
   {
     initTypeSolver(args);
 
     final String scannerDefinition = argScanner(args, true);
-    final App a = new App();
+    final CallHierarchyToSysOutApp a = new CallHierarchyToSysOutApp();
     if (scannerDefinition != null) {
       a.startScanner(argEntryPointSrc(args), scannerDefinition, (entryMethodName, artifacts) -> {
         artifacts.stream().map(f -> a.start(f.getAbsolutePath(), entryMethodName))
