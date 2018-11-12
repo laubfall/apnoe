@@ -46,6 +46,12 @@ public abstract class AbstractApnoeApp
    */
   private static final String ARG_ENTRY_POINT_METHOD_NAME = "-DentryPointMethod=";
 
+  /**
+   * A scanner definition. It is a concatenation of tokens, delimited by a semicolon. A token is defined by two things:
+   * FQN of the java source where we try to find an method where to start the scan and the name of that method.
+   * 
+   * See {@link ScannerConfigurerService} for more details.
+   */
   private static final String ARG_SCAN_DEFINITION = "-Dscanner=";
 
   /**
@@ -94,7 +100,7 @@ public abstract class AbstractApnoeApp
   {
     Optional<String> findFirst = Arrays.stream(args).filter(arg -> arg.startsWith(ARG_SCAN_DEFINITION)).findFirst();
     if (silent) {
-      if(findFirst.isPresent() == false) {
+      if (findFirst.isPresent() == false) {
         return null;
       }
       return findFirst.get().substring(ARG_SCAN_DEFINITION.length());

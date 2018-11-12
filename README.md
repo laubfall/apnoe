@@ -17,3 +17,8 @@ This little application can be used to analyze the call hierarchy of a piece of 
 
 ### GraphViewerApp
 ### Apnoe Library
+
+## Planned Features
+### GraphViewerApp
+* Proper scaling of nodes and names when zoom in and out	
+* Better visualization of block-nodes like if,else etc.
