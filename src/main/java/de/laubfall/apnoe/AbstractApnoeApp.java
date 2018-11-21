@@ -54,17 +54,6 @@ public abstract class AbstractApnoeApp
    */
   private static final String ARG_SCAN_DEFINITION = "-Dscanner=";
 
-  /**
-   * Typically this method is the place to start the analyze of the code. You can easily fetch the both parameters with
-   * the existing methods {@link #argEntryPointMethodName(String[])} and {@link #argEntryPointSrc(String[])}.
-   * 
-   * @param pathToEntryPointSourceFile Path to the source file that contains the entrypoint method.
-   * @param entryPointMethodName name of the entry point method.
-   * @return found node for the give source file and entrypoint name (method name). Null if there is no entrypoint that
-   *         matches the criteria.
-   */
-  abstract CallHierarchyNode start(String pathToEntryPointSourceFile, String entryPointMethodName);
-
   protected final List<CallHierarchyNode> startScanner(String sourcePath, String scannerDefinition,
       BiFunction<String, List<File>, List<CallHierarchyNode>> doScanWork)
   {
