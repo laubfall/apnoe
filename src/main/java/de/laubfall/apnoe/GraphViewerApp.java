@@ -136,15 +136,11 @@ public class GraphViewerApp extends AbstractApnoeApp
       graph.addNode(ifRootId);
       // attach this node to the parent node
       graph.addEdge(parentUid + "_" + ifRootId, parentUid, ifRootId);
-      // now create nodes for the if-Statement and all of its successors
-      //      graph.addNode(ifElseNode.getUid());
-      //      graph.addEdge(ifRootId + "_" + ifElseNode.getUid(), ifRootId, ifElseNode.getUid());
+
       addLeafNodes(ifRootId, ifElseNode.getLeafs(), graph);
       // now the successors
       ien.getSuccessors().forEach(suc -> {
-        graph.addNode(suc.getUid());
-        graph.addEdge(ifRootId + "_" + suc.getUid(), ifRootId, suc.getUid());
-        addLeafNodes(suc.getUid(), suc.getLeafs(), graph);
+        addLeafNodes(ifRootId, suc.getLeafs(), graph);
       });
     });
   }
