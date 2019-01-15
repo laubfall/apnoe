@@ -77,7 +77,7 @@ public class GraphViewerApp extends AbstractApnoeApp
       ClassOrInterfaceDeclaration clNode = (ClassOrInterfaceDeclaration) scanNode.getNode();
       graph.addNode(scanNode.getUid()).addAttribute("ui.label",
           clNode.getNameAsString() + "." + scanNode.getScopeName());
-      addLeafNodes(scanNode.getUid(), scanNode.getLeafs(), graph);
+      addLeafNodes(scanNode.getUid(), scanNode.getLeafs(), graph, true);
       graph.addEdge("app_edge_" + scanNode.getUid(), "app", scanNode.getUid());
     });
 
@@ -103,11 +103,25 @@ public class GraphViewerApp extends AbstractApnoeApp
     }
   }
 
-  private final void addLeafNodes(String parentUid, List<CallHierarchyNode> leafs, final Graph graph)
+  private final void addLeafNodes(String parentUid, List<CallHierarchyNode> leafs, final Graph graph, boolean parentIsABlockNode)
   {
 
     for (CallHierarchyNode l : leafs) {
+      // create a Block-node, like braces around an if-else-stmt
       if (l instanceof IfElseNode) {
+        //        continue;
+        if (l.getScopeName().equals("if") || l.getScopeName().equals("else") || l.getScopeName().equals("else if")) {
+          String valueOf = String.valueOf(System.nanoTime());
+          graph.addNode(valueOf);
+          graph.addEdge(parentUid + "_" + valueOf, parentUid, valueOf);
+//          graph.addNode(l.getUid());
+//          graph.addEdge(valueOf, valueOf, l.getUid());
+          IfElseNode ien = (IfElseNode) l;
+//          ien.getSuccessors().forEach(suc -> {
+//            addLeafNodes(valueOf, suc.getLeafs(), graph, true);
+//          });
+          addLeafNodes(valueOf, ien.getLeafs(), graph, true);
+        }
         continue;
       }
 
@@ -115,34 +129,30 @@ public class GraphViewerApp extends AbstractApnoeApp
       leafNode.addAttribute("ui.label", l.getScopeName());
       graph.addEdge(parentUid + "_" + l.getUid(), parentUid, l.getUid()).addAttribute("ui.label", provideEdgeLabel(l));
 
-      addLeafNodes(l.getUid(), l.getLeafs(), graph);
+      addLeafNodes(l.getUid(), l.getLeafs(), graph, false);
     }
 
     // now take care of the if-Statements. These were not handled before.
-    leafs.stream().filter(chr -> chr.getScopeName().equals("if")).forEach(ifElseNode -> {
-      //      graph.addNode(ifElseNode.getUid());
-      //      graph.addEdge(parentUid + "_" + ifElseNode.getUid(), parentUid, ifElseNode.getUid());
-      //
-      //      addLeafNodes(ifElseNode.getUid(), ifElseNode.getLeafs(), graph);
-
-      final IfElseNode ien = (IfElseNode) ifElseNode;
-      // TODO that does not work in case there is a else-block successor with an if-Statement inside its block
-      // In this case the if-Block is rendered as a child-node of the current if-node (what is wrong). See the
-      // IfElseSample.java for example
-      //      ien.getSuccessors().forEach(successors -> addLeafNodes(ifElseNode.getUid(), successors.getLeafs(), graph));
-
-      // a root node for the following if-else-statements
-      String ifRootId = String.valueOf(System.nanoTime());
-      graph.addNode(ifRootId);
-      // attach this node to the parent node
-      graph.addEdge(parentUid + "_" + ifRootId, parentUid, ifRootId);
-
-      addLeafNodes(ifRootId, ifElseNode.getLeafs(), graph);
-      // now the successors
-      ien.getSuccessors().forEach(suc -> {
-        addLeafNodes(ifRootId, suc.getLeafs(), graph);
-      });
-    });
+    //    leafs.stream().filter(chr -> chr.getScopeName().equals("if")).forEach(ifElseNode -> {
+    //
+    //      final IfElseNode ien = (IfElseNode) ifElseNode;
+    //      // TODO that does not work in case there is a else-block successor with an if-Statement inside its block
+    //      // In this case the if-Block is rendered as a child-node of the current if-node (what is wrong). See the
+    //      // IfElseSample.java for example
+    //      //      ien.getSuccessors().forEach(successors -> addLeafNodes(ifElseNode.getUid(), successors.getLeafs(), graph));
+    //
+    //      // a root node for the following if-else-statements
+    //      String ifRootId = String.valueOf(System.nanoTime());
+    //      graph.addNode(ifRootId);
+    //      // attach this node to the parent node
+    //      graph.addEdge(parentUid + "_" + ifRootId, parentUid, ifRootId);
+    //
+    //      addLeafNodes(ifRootId, ifElseNode.getLeafs(), graph);
+    //      // now the successors
+    //      ien.getSuccessors().forEach(suc -> {
+    //        addLeafNodes(ifRootId, suc.getLeafs(), graph);
+    //      });
+    //    });
   }
 
   private String provideEdgeLabel(CallHierarchyNode node)

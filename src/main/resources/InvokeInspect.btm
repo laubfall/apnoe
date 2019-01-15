@@ -1,0 +1,13 @@
+# create a rule name
+RULE invoke test
+# provide the class name, fqn preferred.
+CLASS A
+HELPER de.laubfall.apnoe.bm.RuntimeRecorder
+# parent call hierarchy result
+METHOD main
+# child call hierarchy result. Param definition is needed.
+AT INVOKE doSomethingMore (java.lang.String) ALL
+IF true
+# make sure to record all parameters as consumed by the invoked method
+DO record("4711", $@[1])
+ENDRULE

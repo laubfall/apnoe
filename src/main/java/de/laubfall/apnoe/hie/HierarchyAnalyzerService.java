@@ -11,6 +11,9 @@ import com.github.javaparser.JavaParser;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 
+import de.laubfall.apnoe.bm.GeneratorContext;
+import de.laubfall.apnoe.bm.RuleGeneratorService;
+
 /**
  * Service that provides functionality for analyzing the hierarchy of method calls.
  * 
@@ -47,6 +50,7 @@ public class HierarchyAnalyzerService
     result.setNode(node.get());
     result.setScopeName(entryPointMethodName);
     entryPoint.get().accept(new CallHierachyVisitor(), result);
+    
     return result;
   }
 }

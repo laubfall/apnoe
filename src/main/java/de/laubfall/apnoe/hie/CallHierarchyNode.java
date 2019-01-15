@@ -37,6 +37,9 @@ public class CallHierarchyNode
    */
   private Node node;
 
+  /**
+   * Random uid of this node.
+   */
   private String uid;
   
   private static final Random random = new Random();

@@ -1,0 +1,7 @@
+RULE a test
+CLASS A
+METHOD main
+AT ENTRY
+IF true
+DO debug("--> entered main")
+ENDRULE
