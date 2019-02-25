@@ -1,5 +1,6 @@
 package de.laubfall.apnoe.bm;
 
+import de.laubfall.apnoe.ty.TypeSolverFactory;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
@@ -26,6 +27,8 @@ public class RuleGeneratorServiceTest
   @Test
   public void generateRulesForA()
   {
+    TypeSolverFactory.get().create().addJavaSourceSolver("src/test/java");
+
     final HierarchyAnalyzerService has = new HierarchyAnalyzerService();
     final CallHierarchyNode result = has.analyze("src/test/java/de/laubfall/apnoe/dummy/A.java", "main");
     
