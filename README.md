@@ -8,6 +8,7 @@ A good starting point is the GraphViewerApp. This application uses the GraphStre
 ## Status
 Actually this is a work in progress project. The GraphViewerApp is under heavy development and far from finished but it gives you an idea what i try to achieve with apnoe. So head over to the "Where to start" chapter if you like to try it for your own.
 
+[![Build Status](https://travis-ci.com/laubfall/apnoe.svg?branch=master)](https://travis-ci.com/laubfall/apnoe)
 
 ## Where to start
 Apnoe is a Software-Library and a Standalone application at the same time. All its included applications (that we cover in the following chapters) utilizes the Apnoe Library. The Apnoe Library is a collection of services for static code analysis.
