@@ -14,7 +14,7 @@ import com.github.javaparser.resolution.UnsolvedSymbolException;
 import com.github.javaparser.resolution.types.ResolvedReferenceType;
 import com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFacade;
 
-import de.laubfall.apnoe.hie.TypeSolverFactory;
+import de.laubfall.apnoe.ty.TypeSolverFactory;
 
 public class ByExtendedTypeScanner extends ByTypeScanner
 {

@@ -6,6 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import de.laubfall.apnoe.ty.TypeSolverFactory;
+
 /**
  * Test the Hierarchy Analyzer Service. Tries to check the resulting structure.
  * 

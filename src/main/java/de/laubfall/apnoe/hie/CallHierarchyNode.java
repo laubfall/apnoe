@@ -42,6 +42,9 @@ public class CallHierarchyNode
    */
   private String uid;
   
+  /**
+   * Used to create ID for every node.
+   */
   private static final Random random = new Random();
   
   public CallHierarchyNode()
@@ -78,7 +81,7 @@ public class CallHierarchyNode
 
     return null;
   }
-
+  
   /**
    * Count all method calls and flow control statements.
    * 

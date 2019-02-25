@@ -15,6 +15,9 @@ import com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFacade;
 import com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserMethodDeclaration;
 import com.github.javaparser.symbolsolver.model.resolution.SymbolReference;
 
+import de.laubfall.apnoe.ty.TypeSolverFactory;
+import de.laubfall.apnoe.ty.TypeSolverService;
+
 /**
  * This visitor is specialized for analyzing the call hierarchy of methods. Method calls and statements that modifies
  * call hierarchy (like if-Statement) are logged inside the {@link CallHierarchyNode}.
@@ -37,19 +40,9 @@ public class CallHierachyVisitor extends CallHierachyVisitorAdapter
     n.getChildNodes().stream().filter(cn -> childScope.findCallHierachyByNode(cn) == null)
         .forEach(cn -> cn.accept(this, childScope));
 
-    var solver = JavaParserFacade.get(TypeSolverFactory.get().typeSolver());
-    try {
-      SymbolReference<ResolvedMethodDeclaration> symbolReference = solver.solve(n);
-      if (symbolReference != null && symbolReference.isSolved()) {
-        ResolvedMethodDeclaration correspondingDeclaration = symbolReference.getCorrespondingDeclaration();
-        if (correspondingDeclaration instanceof JavaParserMethodDeclaration) {
-          JavaParserMethodDeclaration jpmd = (JavaParserMethodDeclaration) correspondingDeclaration;
-          jpmd.getWrappedNode().accept(this, childScope);
-        }
-      }
-    } catch (RuntimeException e) {
-      LOG.warn("unable to solve scope symbol " + n.getNameAsString());
-    }
+    TypeSolverService typeSolverService = new TypeSolverService();
+    Optional<JavaParserMethodDeclaration> solved = typeSolverService.solveByMethodCallExpression(n);
+    solved.ifPresent(jpmd -> jpmd.getWrappedNode().accept(this, childScope));
 
     return null;
   }

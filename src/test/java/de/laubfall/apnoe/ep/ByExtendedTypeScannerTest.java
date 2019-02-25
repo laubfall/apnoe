@@ -9,7 +9,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import de.laubfall.apnoe.dummy.A;
-import de.laubfall.apnoe.hie.TypeSolverFactory;
+import de.laubfall.apnoe.ty.TypeSolverFactory;
 
 public class ByExtendedTypeScannerTest
 {

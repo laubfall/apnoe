@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import de.laubfall.apnoe.dummy.A;
 import de.laubfall.apnoe.dummy.B;
-import de.laubfall.apnoe.hie.TypeSolverFactory;
+import de.laubfall.apnoe.ty.TypeSolverFactory;
 
 public class OrCombinedScannerTest
 {

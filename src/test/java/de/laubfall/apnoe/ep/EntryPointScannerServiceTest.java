@@ -6,7 +6,7 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import de.laubfall.apnoe.hie.TypeSolverFactory;
+import de.laubfall.apnoe.ty.TypeSolverFactory;
 import junit.framework.Assert;
 
 public class EntryPointScannerServiceTest

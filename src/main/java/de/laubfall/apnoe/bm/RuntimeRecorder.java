@@ -20,6 +20,10 @@ public class RuntimeRecorder
   public void record(String callHierarchyNodeId, Object o)
   {
     System.err.println(o);
+  }
+
+  public void record(String callHierarchyNodeId, Object... params)
+  {
 
   }
 }

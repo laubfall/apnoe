@@ -1,4 +1,4 @@
-package de.laubfall.apnoe.hie;
+package de.laubfall.apnoe.ty;
 
 import java.io.IOException;
 

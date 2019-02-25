@@ -9,7 +9,7 @@ import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.resolution.declarations.ResolvedReferenceTypeDeclaration;
 import com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFacade;
 
-import de.laubfall.apnoe.hie.TypeSolverFactory;
+import de.laubfall.apnoe.ty.TypeSolverFactory;
 
 public class ByTypeScanner extends AbstractScannerAdapter
 {

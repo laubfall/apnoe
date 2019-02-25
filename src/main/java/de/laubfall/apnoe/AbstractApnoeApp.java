@@ -14,7 +14,7 @@ import de.laubfall.apnoe.ep.ScannerConfigurerService;
 import de.laubfall.apnoe.ep.ScannerDefinition;
 import de.laubfall.apnoe.hie.CallHierarchyNode;
 import de.laubfall.apnoe.hie.HierarchyAnalyzerService;
-import de.laubfall.apnoe.hie.TypeSolverFactory;
+import de.laubfall.apnoe.ty.TypeSolverFactory;
 
 /**
  * Base class for apps that want to make use of the {@link HierarchyAnalyzerService}. It offers some convenient methods
